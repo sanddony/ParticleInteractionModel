@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+	<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:ParticleInteractionModel.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,11 +7,36 @@
         x:Class="ParticleInteractionModel.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="ParticleInteractionModel">
-
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+	
+    <Grid>
+		
+        <Grid.ColumnDefinitions>
+			<ColumnDefinition Width="150"/>
+			<ColumnDefinition Width="*"/>
+	    </Grid.ColumnDefinitions>
+		
+		<StackPanel Background="Gray">
+		    <TextBlock Text="Menu" TextAlignment="Center"/>
+			<Button Name="FirstCase">
+				<TextBlock Text="Диффузия 2 газов" TextWrapping="Wrap" FontSize="15" TextAlignment="Center" />
+			</Button>
+			<Button Name="SecondCase">
+				<TextBlock Text=" Нагревание газа " TextWrapping="Wrap" FontSize="15" TextAlignment="Center" />
+			</Button>
+			<Button Name="ThirdCase">
+				<TextBlock Text="Взаимодействие с частицами" TextWrapping="Wrap" FontSize="15" TextAlignment="Center" />
+			</Button>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+		</StackPanel>
+		
+		<Grid Grid.Column="1">
+			<Canvas Name="MainField" Focusable="True" Background="Yellow" ClipToBounds="True">
+			</Canvas>
+		</Grid>
+		
+	</Grid>
 </Window>
+
