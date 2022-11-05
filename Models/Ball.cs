@@ -95,8 +95,6 @@ namespace ParticleInteractionModel.Models
                 ball_2.velocity.X = Vn1 * sin - Vt1 * cos;
                 ball_2.velocity.Y = Vn1 * cos + Vt1 * sin;
 
-
-
                 ball_1.Move(dt);
                 ball_2.Move(dt);
             }
