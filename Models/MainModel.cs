@@ -15,10 +15,10 @@ namespace ParticleInteractionModel.Models
             Random random = new Random();
             for (int i = 0; i < 10; i++)
             {
-                int diameter = random.Next(10, 50);
+                int diameter = random.Next(50, 80);
                 int mass = diameter * 10;
-                int x = random.Next(diameter, 100 - diameter);
-                int y = random.Next(diameter, 100 - diameter);
+                int x = random.Next(diameter, 650 - diameter);
+                int y = random.Next(diameter, 450 - diameter);
                 Vector velocity = new Vector(random.Next(1, 10), random.Next(1, 10));
                 Ball ball = new Ball(new Vector(x, y),
                                      velocity,
@@ -42,8 +42,6 @@ namespace ParticleInteractionModel.Models
                     Ball.BouncingOfBalls(balls[i], balls[k]);
                     balls[i].BouncingOfWalls(RightBorder, LeftBorder,
                                             DownBorder, UpBorder);
-                    // ball[i].velocity.Y += 0.1;
-                    balls[i].SlowlyDown(0.99);
                 }
             }
         }

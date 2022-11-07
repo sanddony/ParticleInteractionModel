@@ -1,3 +1,4 @@
+using ParticleInteractionModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,12 +7,9 @@ namespace ParticleInteractionModel.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-
-
-
-
-
-            for (int i = 0; i < balls.Count; i++)
+        public MainWindowViewModel()
+        {
+/*            for (int i = 0; i < balls.Count; i++)
             {
                 for (int k = 0; k < balls.Count; k++)
                 {
@@ -24,14 +22,11 @@ namespace ParticleInteractionModel.ViewModels
                     ball[i].SlowlyDown(0.99);
                 }
             }
-
-                }
-
-            }
-            foreach (Ball ball in lose_balls)
-            {
-                balls.Remove(ball);
-            }
+*/
+        }
 
     }
+
+
+
 }

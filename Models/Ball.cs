@@ -17,6 +17,8 @@ namespace ParticleInteractionModel.Models
         public Vector Position { get => position; set => position=value; }
         public Vector Velocity { get => velocity; set => velocity=value; }
         public double Mass { get => mass; set => mass=value; }
+        public double Radius { get => diameter/2; set => diameter=value*2; }
+        public double Diameter { get => diameter; set => diameter=value; }
         public double Acceleration { get => acceleration; set => acceleration=value; }
 
 
@@ -51,6 +53,7 @@ namespace ParticleInteractionModel.Models
             double d = Vector.FindDistances(ball_1.Position, ball_2.Position);
             //
 
+            // Если расстояние между центрами шаров меньше суммы их радиусов
             if (d <= ball_1.diameter / 2 + ball_2.diameter / 2)
             {
                 // Вычисление синуса и косинуса между отрезком расстояния двух центров шаров и проекциями их скоростей
@@ -99,9 +102,9 @@ namespace ParticleInteractionModel.Models
                 ball_2.velocity.Y = Vn1 * cos + Vt1 * sin;
                 //
 
-                // Изменение позиции шара на его скорость
-                ball_1.Move(dt);
-                ball_2.Move(dt);
+/*                // Изменение позиции шара на его скорость
+                ball_1.Move(dt); // ПОПРОБОВАТЬ УБРАТЬ И ВЫЗЫВАТЬ ОДИН РАЗ БЕЗ dt ВНЕ ВЕТОДОВ
+                ball_2.Move(dt);*/
                 //
             }
         }
@@ -144,8 +147,8 @@ namespace ParticleInteractionModel.Models
             }
 
             // Изменение позиции шара на его скорость
-            this.Move();
-        }
+/*            this.Move();
+*/        }
 
         public void SlowlyDown(double k)
         {
