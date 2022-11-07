@@ -64,7 +64,7 @@ namespace ParticleInteractionModel.Models
 
                 // Смещение шаров, если их границы перекрывают друг друга
                 double dt = Math.Abs((ball_2.diameter / 2 + ball_1.diameter / 2 - d) / (Vn1 - Vn2 == 0 ? 0.01 : Vn1 - Vn2));
-                if (dt > 0.6) dt = 0.6;
+                dt = dt > 0.6 ? 0.6 : dt;
                 ball_1.position -= ball_1.velocity * dt;
                 ball_2.position -= ball_2.velocity * dt;
                 //
@@ -135,6 +135,7 @@ namespace ParticleInteractionModel.Models
             }
 
             // Вычисление скорости по оси Y при соудорении с нижней или верхнёй стенкой
+            // При 
             if (this.position.Y + this.diameter / 2 >= DownBorder ||
                 this.position.Y - this.diameter / 2 <= UpBorder)
             {
@@ -151,7 +152,5 @@ namespace ParticleInteractionModel.Models
             velocity *= k;
             if (this.velocity.Length() < 0.1f) this.velocity = new Vector(0, 0);
         }
-
     }
-
 }
