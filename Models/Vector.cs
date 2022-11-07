@@ -56,32 +56,37 @@ namespace ParticleInteractionModel.Models
                 return false;
         }
 
-        public static double FindDistance(Vector v1, Vector v2)
-        {
-            double Dx = v1.X - v2.X;
-            double Dy = v1.Y - v2.Y;
-            double d = Math.Sqrt(Dx * Dx + Dy * Dy);
-            return d;
-        }
         public double Length()
         {
             return Math.Sqrt(x * x + y * y);
         }
 
-        public static void FindTrigonomertyValue(Vector v1,
-                                                 Vector v2,
-                                                 out double Dx,
-                                                 out double Dy,
-                                                 out double d,
-                                                 out double sin,
-                                                 out double cos)
+        public static double FindDistances(Vector point1, Vector point2)
         {
-            Dx = v1.X - v2.X;
-            Dy = v1.Y - v2.Y;
-            d = Math.Sqrt(Dx * Dx + Dy * Dy);
+            double Dx = FindDx(point1, point2);
+            double Dy = FindDy(point1, point2);
+            return Math.Sqrt(Dx * Dx + Dy * Dy);
+        }
+
+        public static double FindDx(Vector point1, Vector point2)
+        {
+            return point1.X - point2.X; 
+        }
+
+        public static double FindDy(Vector point1, Vector point2)
+        {
+            return point1.Y - point2.Y;
+        }
+
+        public static void FindSinCos(Vector v1,
+                                      Vector v2,
+                                      out double sin,
+                                      out double cos)
+        {
+            double d = FindDistances(v1, v2);
             if (d == 0) d = 0.01;
-            sin = Dx / d;
-            cos = Dy / d;
+            sin = FindDx(v1,v2) / d;
+            cos = FindDy(v1,v2) / d;
         }
 
     }
