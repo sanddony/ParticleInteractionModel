@@ -32,7 +32,7 @@
 
 		</StackPanel>
 		
-		<Grid Grid.Column="1">
+		<Grid Grid.Column="1" Name="GridMaine">
 			<Canvas Name="MainField" Focusable="True" Background="Yellow" ClipToBounds="True">
 			</Canvas>
 		</Grid>

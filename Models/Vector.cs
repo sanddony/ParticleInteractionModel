@@ -70,7 +70,7 @@ namespace ParticleInteractionModel.Models
 
         public static double FindDx(Vector point1, Vector point2)
         {
-            return point1.X - point2.X; 
+            return point1.X - point2.X;
         }
 
         public static double FindDy(Vector point1, Vector point2)
@@ -85,8 +85,8 @@ namespace ParticleInteractionModel.Models
         {
             double d = FindDistances(v1, v2);
             if (d == 0) d = 0.01;
-            sin = FindDx(v1,v2) / d;
-            cos = FindDy(v1,v2) / d;
+            sin = FindDx(v1, v2) / d;
+            cos = FindDy(v1, v2) / d;
         }
 
     }

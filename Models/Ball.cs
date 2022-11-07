@@ -14,12 +14,12 @@ namespace ParticleInteractionModel.Models
         private double diameter, mass, acceleration;
         public (int r, int g, int b) color;
 
-        public Vector Position { get => position; set => position=value; }
-        public Vector Velocity { get => velocity; set => velocity=value; }
-        public double Mass { get => mass; set => mass=value; }
-        public double Radius { get => diameter/2; set => diameter=value*2; }
-        public double Diameter { get => diameter; set => diameter=value; }
-        public double Acceleration { get => acceleration; set => acceleration=value; }
+        public Vector Position { get => position; set => position = value; }
+        public Vector Velocity { get => velocity; set => velocity = value; }
+        public double Mass { get => mass; set => mass = value; }
+        public double Radius { get => diameter / 2; set => diameter = value * 2; }
+        public double Diameter { get => diameter; set => diameter = value; }
+        public double Acceleration { get => acceleration; set => acceleration = value; }
 
 
 
@@ -66,19 +66,21 @@ namespace ParticleInteractionModel.Models
                 //
 
                 // Смещение шаров, если их границы перекрывают друг друга
-                double dt = Math.Abs((ball_2.diameter / 2 + ball_1.diameter / 2 - d) / (Vn1 - Vn2 == 0 ? 0.01 : Vn1 - Vn2));
-                dt = dt > 0.6 ? 0.6 : dt;
+                double dt = (ball_2.diameter / 2 + ball_1.diameter / 2 - d) / (Vn1 - Vn2);
+                if (dt > 0.6) dt = 0.6;
+                if (dt < -0.6) dt = -0.6;
+                //
+
                 ball_1.position -= ball_1.velocity * dt;
                 ball_2.position -= ball_2.velocity * dt;
-                //
 
                 // Вычисление синуса и косинуса между отрезком расстояния двух центров шаров и проекциями их скоростей
                 Vector.FindSinCos(ball_1.position, ball_2.position, out sin, out cos);
                 //
 
                 // Вычисление проекций векторов скорости на координатную плоскость "соудорения" (после смещения)
-                Vn1 = ball_2.velocity.X * sin + ball_2.velocity.Y * cos; 
-                Vn2 = ball_1.velocity.X * sin + ball_1.velocity.Y * cos; 
+                Vn1 = ball_2.velocity.X * sin + ball_2.velocity.Y * cos;
+                Vn2 = ball_1.velocity.X * sin + ball_1.velocity.Y * cos;
 
                 double Vt1 = -ball_2.velocity.X * cos + ball_2.velocity.Y * sin;
                 double Vt2 = -ball_1.velocity.X * cos + ball_1.velocity.Y * sin;
@@ -90,7 +92,7 @@ namespace ParticleInteractionModel.Models
                 // Вычилсение скорости шаров, в зависимости от их массы, согласно ЗСЭ и ЗСИ
                 Vn1 = ((ball_2.mass - ball_1.mass) * Vn1_i + 2 * ball_1.mass * Vn2_i) /
                     (ball_1.mass + ball_2.mass);
-                Vn2 = ((ball_1.mass - ball_2.mass) * Vn2_i + 2 * ball_2.mass * Vn1_i) / 
+                Vn2 = ((ball_1.mass - ball_2.mass) * Vn2_i + 2 * ball_2.mass * Vn1_i) /
                     (ball_1.mass + ball_2.mass);
                 //
 
@@ -102,9 +104,9 @@ namespace ParticleInteractionModel.Models
                 ball_2.velocity.Y = Vn1 * cos + Vt1 * sin;
                 //
 
-/*                // Изменение позиции шара на его скорость
+                // Изменение позиции шара на его скорость
                 ball_1.Move(dt); // ПОПРОБОВАТЬ УБРАТЬ И ВЫЗЫВАТЬ ОДИН РАЗ БЕЗ dt ВНЕ ВЕТОДОВ
-                ball_2.Move(dt);*/
+                ball_2.Move(dt);
                 //
             }
         }
@@ -147,8 +149,9 @@ namespace ParticleInteractionModel.Models
             }
 
             // Изменение позиции шара на его скорость
-/*            this.Move();
-*/        }
+            this.Move();
+
+        }
 
         public void SlowlyDown(double k)
         {
