@@ -17,7 +17,7 @@ namespace ParticleInteractionModel.Models
         public Vector Position { get => position; set => position = value; }
         public Vector Velocity { get => velocity; set => velocity = value; }
         public double Mass { get => mass; set => mass = value; }
-        public double Radius { get => diameter / 2; set => diameter = value * 2; }
+        public double Radius { get => (diameter / 2); set => diameter = value * 2; }
         public double Diameter { get => diameter; set => diameter = value; }
         public double Acceleration { get => acceleration; set => acceleration = value; }
 
@@ -112,39 +112,41 @@ namespace ParticleInteractionModel.Models
         }
 
 
-        public void BouncingOfWalls(int RightBorder,
-                                    int LeftBorder,
+        public void BouncingOfWalls(int LeftBorder,
+                                    int RightBorder,
                                     int DownBorder,
                                     int UpBorder)
         {
+            //TO-DO: Сделать влидацию данных, кидать ошибку 
+
             // Вычисление на сколько край шара сместился за границы сосуда по оси X
-            double delta_x = this.position.X > RightBorder / 2 ?
-                                (this.position.X + this.diameter / 2) - RightBorder :
-                                 LeftBorder - (this.position.X - this.diameter / 2);
+            double delta_x = this.position.X > (RightBorder - LeftBorder) / 2 + LeftBorder ?
+                                (this.position.X + this.Radius) - RightBorder :
+                                 LeftBorder - (this.position.X - this.Radius);
+
 
             // Вычисление на сколько край шара сместился за границы сосуда по оси Y
-            double delta_y = this.position.Y > DownBorder / 2 ?
-                            (this.position.Y + this.diameter / 2) - DownBorder :
-                            UpBorder - (this.position.Y - this.diameter / 2);
+            double delta_y = this.position.Y > (DownBorder - UpBorder) / 2 + UpBorder ?
+                            (this.position.Y + this.Radius) - DownBorder :
+                            UpBorder - (this.position.Y - this.Radius);
 
             // Вычисление коэффицента смещения, который показывает за сколько итераций шар пройдёт delta с текущей скоростью
-            double k_x = Math.Abs(delta_x / this.velocity.X);
             double k_y = Math.Abs(delta_y / this.velocity.Y);
+            double k_x = Math.Abs(delta_x / this.velocity.X);
 
             // Вычисление скорости по оси X при соудорении с левой или правой стенкой
-            if (this.position.X + this.diameter / 2 >= RightBorder ||
-                this.position.X - this.diameter / 2 <= LeftBorder)
+            if (this.position.X + this.Radius >= RightBorder ||
+                this.position.X - this.Radius <= LeftBorder)
             {
-                this.position.X -= k_x * this.velocity.X;
+                this.position.X -= (k_x+0.2f) * this.velocity.X;
                 this.velocity.X *= -1;
             }
 
             // Вычисление скорости по оси Y при соудорении с нижней или верхнёй стенкой
-            // При 
-            if (this.position.Y + this.diameter / 2 >= DownBorder ||
-                this.position.Y - this.diameter / 2 <= UpBorder)
+            if (this.position.Y + this.Radius >= DownBorder ||
+                this.position.Y - this.Radius <= UpBorder)
             {
-                this.position.Y -= k_y * this.velocity.Y;
+                this.position.Y -= (k_y+0.2f) * this.velocity.Y;
                 this.velocity.Y *= -1;
             }
 
