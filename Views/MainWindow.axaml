@@ -19,7 +19,7 @@
 	    </Grid.ColumnDefinitions>
 		
 		<StackPanel Background="Gray">
-		    <TextBlock Text="Menu" TextAlignment="Center"/>
+		    <TextBlock Name="Menu" TextWrapping="Wrap" Text="Menu" TextAlignment="Center"/>
 			<Button Name="MergeContainers"
 					Click="MergeContainersClick">
 				<TextBlock Text="Merge" TextWrapping="Wrap" FontSize="15" TextAlignment="Center" />
@@ -32,7 +32,7 @@
 		</StackPanel>
 		
 		<Grid Grid.Column="1" Name="GridMaine">
-			<Canvas Name="MainField" Focusable="True" Background="White" ClipToBounds="True">
+			<Canvas Name="MainField" Focusable="True" Background="White" ClipToBounds="True" PointerPressed="AddRemoveEllipses">
 			</Canvas>
 		</Grid>
 		

@@ -11,6 +11,7 @@ using Avalonia.Media;
 using ReactiveUI;
 using ScottPlot.Avalonia;
 using ScottPlot.Drawing.Colormaps;
+using Avalonia.Input;
 
 namespace ParticleInteractionModel.Views
 {
@@ -43,10 +44,10 @@ namespace ParticleInteractionModel.Views
             gameTimer.Start();
 
             graphTimer.Tick += GraphTimerEvent;
-            graphTimer.Interval = TimeSpan.FromSeconds(1);
+            graphTimer.Interval = TimeSpan.FromSeconds(5);
             graphTimer.Start();
 
-            GenerateContainerWithParticles(particles1, 1, 5, 100, 1, 3, Brushes.Green, 0, windowWigth/2, 0, windowHeight);
+            GenerateContainerWithParticles(particles1, 100, 5, 100, 1, 3, Brushes.Green, 0, windowWigth/2, 0, windowHeight);
             GenerateContainerWithParticles(particles2, 300, 10, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
 
             merged = false; // костыль
@@ -67,11 +68,8 @@ namespace ParticleInteractionModel.Views
         
         private void GraphTimerEvent(object sender, EventArgs e)
         {   
-            // RenderParticles(particles1, 0, 1600/2, 900, 0);
             if(merged) BuildGraph(particles3);
             else BuildGraph(particles2);
-
-
         }
 
         public void RenderParticles(Dictionary<Ball, Ellipse> particles,
@@ -148,6 +146,17 @@ namespace ParticleInteractionModel.Views
             InfoGraph.Show();
         }
 
+        private void AddRemoveEllipses(object sender, PointerPressedEventArgs e)
+        {
+            if(e.Pointer is Ellipse)
+            {
+                Ellipse rect = (Ellipse)e.Pointer;
+                MainField.Children.Add(rect);
+            }
+            this.Find<TextBlock>("Menu").Text= e.ToString(); // REMOVE
+        }
+
+
         private void BuildGraph(Dictionary<Ball, Ellipse> particles)
         {
             AvaPlot avaPlot1 = InfoGraph.Find<AvaPlot>("AvaPlot1");
@@ -162,6 +171,18 @@ namespace ParticleInteractionModel.Views
                 dataX[i] = Math.Round(particles.ElementAt(i).Key.Velocity.Length(),1);
                 e += ( particles.ElementAt(i).Key.Mass * Math.Pow(particles.ElementAt(i).Key.Velocity.Length(), 2) ) /2;
             }
+            double e_k = Math.Round(e / particles.Count, 2);
+            double n = (particles.Count / (windowHeight * windowWigth));
+            double k = 1.38;
+            double t = (1 / k) * (2 / 3) * e_k;
+            double p = n * k * t;
+            double v = Math.Sqrt((3*k*t)/150);
+
+            InfoGraph.Find<TextBlock>("Energy").Text = e_k.ToString();
+            InfoGraph.Find<TextBlock>("Pressure").Text = p.ToString();
+            InfoGraph.Find<TextBlock>("Temperature").Text = t.ToString();
+            InfoGraph.Find<TextBlock>("Velocity").Text = v.ToString();
+
             double temp;
             for (int i = 0; i < dataX.Length; i++)
             {
@@ -178,9 +199,9 @@ namespace ParticleInteractionModel.Views
             for (int i = 0; i < dataX.Length; i++)
             {
                 int count = 0;
-                for (int k = 0; k < dataX.Length; k++)
+                for (int j = 0; j < dataX.Length; j++)
                 {
-                    if (dataX[i] == dataX[k]) count++;
+                    if (dataX[i] == dataX[j]) count++;
                 }
                 dataY[i] = count;
             }

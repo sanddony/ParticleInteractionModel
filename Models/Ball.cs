@@ -105,7 +105,6 @@ namespace ParticleInteractionModel.Models
                 //
 
                 // Изменение позиции шара на его скорость
-                ball_1.Move(dt); 
                 ball_2.Move(dt);
                 //
             }
@@ -142,7 +141,7 @@ namespace ParticleInteractionModel.Models
             if (this.position.X + this.Radius >= RightBorder ||
                 this.position.X - this.Radius <= LeftBorder)
             {
-                this.position.X -= (k_x+0.2f) * this.velocity.X;
+                this.position.X -= (k_x+0.5f) * this.velocity.X;
                 this.velocity.X *= -1;
             }
 
@@ -150,7 +149,7 @@ namespace ParticleInteractionModel.Models
             if (this.position.Y + this.Radius >= DownBorder ||
                 this.position.Y - this.Radius <= UpBorder)
             {
-                this.position.Y -= (k_y+0.2f) * this.velocity.Y;
+                this.position.Y -= (k_y+0.5f) * this.velocity.Y;
                 this.velocity.Y *= -1;
             }
 
