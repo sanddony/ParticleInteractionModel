@@ -105,7 +105,7 @@ namespace ParticleInteractionModel.Models
                 //
 
                 // Изменение позиции шара на его скорость
-                ball_1.Move(dt); // ПОПРОБОВАТЬ УБРАТЬ И ВЫЗЫВАТЬ ОДИН РАЗ БЕЗ dt ВНЕ ВЕТОДОВ
+                ball_1.Move(dt); 
                 ball_2.Move(dt);
                 //
             }
@@ -117,15 +117,19 @@ namespace ParticleInteractionModel.Models
                                     int DownBorder,
                                     int UpBorder)
         {
+            if (!((this.position.X + this.Radius >= RightBorder ||
+                this.position.X - this.Radius <= LeftBorder) || (this.position.Y + this.Radius >= DownBorder ||
+                this.position.Y - this.Radius <= UpBorder))) return;
+
             //TO-DO: Сделать влидацию данных, кидать ошибку 
 
-            // Вычисление на сколько край шара сместился за границы сосуда по оси X
+            // Вычисление на сколько край шара сместился за границы сосуда по оси X (delta_x)
             double delta_x = this.position.X > (RightBorder - LeftBorder) / 2 + LeftBorder ?
                                 (this.position.X + this.Radius) - RightBorder :
                                  LeftBorder - (this.position.X - this.Radius);
 
 
-            // Вычисление на сколько край шара сместился за границы сосуда по оси Y
+            // Вычисление на сколько край шара сместился за границы сосуда по оси Y (delta_y)
             double delta_y = this.position.Y > (DownBorder - UpBorder) / 2 + UpBorder ?
                             (this.position.Y + this.Radius) - DownBorder :
                             UpBorder - (this.position.Y - this.Radius);
@@ -134,7 +138,7 @@ namespace ParticleInteractionModel.Models
             double k_y = Math.Abs(delta_y / this.velocity.Y);
             double k_x = Math.Abs(delta_x / this.velocity.X);
 
-            // Вычисление скорости по оси X при соудорении с левой или правой стенкой
+            // Вычисление скорости по оси X при соудорении с левой или правой стенкой и смещение шара назад на delta_x
             if (this.position.X + this.Radius >= RightBorder ||
                 this.position.X - this.Radius <= LeftBorder)
             {
@@ -142,7 +146,7 @@ namespace ParticleInteractionModel.Models
                 this.velocity.X *= -1;
             }
 
-            // Вычисление скорости по оси Y при соудорении с нижней или верхнёй стенкой
+            // Вычисление скорости по оси Y при соудорении с нижней или верхнёй стенкой И смещение шара назад на delta_y
             if (this.position.Y + this.Radius >= DownBorder ||
                 this.position.Y - this.Radius <= UpBorder)
             {

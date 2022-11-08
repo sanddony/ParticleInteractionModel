@@ -1,0 +1,52 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ParticleInteractionModel.Views.InfoGraphicss"
+        Title="InfoGraphicss">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="350"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<ScottPlot:AvaPlot VerticalAlignment="Top" Name="AvaPlot1" Height="350" Width="800"/>
+		</Grid>
+		
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<Grid Grid.Column="0">
+				<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+					<TextBlock Text="Средняя кинетичекая" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="3" TextWrapping="Wrap"/>
+					<TextBlock Name="Energy" Text="" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3"/>
+				</StackPanel>
+			</Grid>
+			<Grid Grid.Column="1">
+				<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+					<TextBlock Text="Температура" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="3" TextWrapping="Wrap"/>
+					<TextBlock Name="Temperature" Text="" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3"/>
+				</StackPanel>			
+			</Grid>
+			<Grid Grid.Column="2">
+				<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+					<TextBlock Text="Средняя квадратичная скорость молекул" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="3" TextWrapping="Wrap"/>
+					<TextBlock Name="Velocity" Text="" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3"/>
+				</StackPanel>			
+			</Grid>
+			<Grid Grid.Column="3">
+				<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+					<TextBlock Text="Давление" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="3" TextWrapping="Wrap"/>
+					<TextBlock Name="Pressure" Text="" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3"/>
+				</StackPanel>
+			</Grid>
+		</Grid>
+	</Grid>
+</Window>

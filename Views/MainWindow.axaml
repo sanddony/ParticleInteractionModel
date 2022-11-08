@@ -3,8 +3,7 @@
         xmlns:vm="using:ParticleInteractionModel.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		mc:Ignorable="d" d:DesignWidth="1800" d:DesignHeight="900"
         x:Class="ParticleInteractionModel.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="ParticleInteractionModel">
@@ -24,10 +23,11 @@
 			<Button Name="MergeContainers"
 					Click="MergeContainersClick">
 				<TextBlock Text="Merge" TextWrapping="Wrap" FontSize="15" TextAlignment="Center" />
-			</Button> 
-			<ScottPlot:AvaPlot Name="AvaPlot1"/>
-
-
+			</Button>
+			<Button Name="ShowInfoGraphics"
+					Click="ShowInfoGraphicsClick">
+				<TextBlock Text="ShowInfoGraphics" TextWrapping="Wrap" FontSize="15" TextAlignment="Center" />
+			</Button>
 
 		</StackPanel>
 		

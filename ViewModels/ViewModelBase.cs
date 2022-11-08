@@ -8,5 +8,6 @@ namespace ParticleInteractionModel.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {
+
     }
 }

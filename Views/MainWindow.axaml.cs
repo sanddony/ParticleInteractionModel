@@ -10,20 +10,27 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using ReactiveUI;
 using ScottPlot.Avalonia;
+using ScottPlot.Drawing.Colormaps;
 
 namespace ParticleInteractionModel.Views
 {
     public partial class MainWindow : Window
     {
         DispatcherTimer gameTimer = new DispatcherTimer();
+        DispatcherTimer graphTimer = new DispatcherTimer();
         MainModel mainModel = new MainModel();
-        Ellipse el;
+
         Dictionary<Ball, Ellipse> particles1 = new Dictionary<Ball, Ellipse>();
         Dictionary<Ball, Ellipse> particles2 = new Dictionary<Ball, Ellipse>();
         Dictionary<Ball, Ellipse> particles3 = new Dictionary<Ball, Ellipse>();
+
+        Window InfoGraph;
+
         bool merged;// костыль
 
 
+        int windowHeight = 600;
+        int windowWigth = 1000;
 
         public MainWindow()
         {
@@ -32,58 +39,15 @@ namespace ParticleInteractionModel.Views
             MainField.Focus();
 
             gameTimer.Tick += GameTimerEvent;
-            gameTimer.Interval = TimeSpan.FromMilliseconds(5);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(1);
             gameTimer.Start();
 
-            Random random = new Random();
-            for (int i = 0; i < 50; i++)
-            {
-                int diameter = random.Next(15, 16);
-                int mass = diameter * 10;
-                int x = random.Next(diameter, 1600 / 2 - diameter);
-                int y = random.Next(diameter, 900 - diameter);
-                Vector velocity = new Vector(random.Next(1, 3), random.Next(1, 3));
-                Ball ball = new Ball(new Vector(x, y),
-                                     velocity,
-                                     (0, 0, 0), diameter, mass);
-                el = new Ellipse();
-                el.Width = ball.Diameter;
-                el.Height = ball.Diameter;
-                el.Fill = Brushes.Black;
-                el.Stroke = Brushes.Red;
-                el.StrokeThickness = 1;
-                Canvas.SetLeft(el, ball.Position.X);
-                Canvas.SetTop(el, ball.Position.Y);
-                MainField.Children.Add(el);
-                particles1.Add(ball, el);
-            }
+            graphTimer.Tick += GraphTimerEvent;
+            graphTimer.Interval = TimeSpan.FromSeconds(1);
+            graphTimer.Start();
 
-            for (int i = 0; i < 50; i++)
-            {
-                int diameter = random.Next(25, 26);
-                int mass = diameter * 10;
-                int x = random.Next(diameter + 800, 1600 - diameter);
-                int y = random.Next(diameter, 900 - diameter);
-                Vector velocity = new Vector(random.Next(1, 3), random.Next(1, 3));
-                Ball ball = new Ball(new Vector(x, y),
-                                     velocity,
-                                     (0, 0, 0), diameter, mass);
-                el = new Ellipse();
-                el.Width = ball.Diameter;
-                el.Height = ball.Diameter;
-                el.Fill = Brushes.Green;
-                el.Stroke = Brushes.Red;
-                el.StrokeThickness = 1;
-                Canvas.SetLeft(el, ball.Position.X);
-                Canvas.SetTop(el, ball.Position.Y);
-                MainField.Children.Add(el);
-                particles2.Add(ball, el);
-            }
-            double[] dataX = new double[] { 1, 2, 3, 4, 5 };
-            double[] dataY = new double[] { 1, 4, 9, 16, 25 };
-            AvaPlot avaPlot1 = this.Find<AvaPlot>("AvaPlot1");
-            avaPlot1.Plot.AddScatter(dataX, dataY);
-            avaPlot1.Refresh();
+            GenerateContainerWithParticles(particles1, 1, 5, 100, 1, 3, Brushes.Green, 0, windowWigth/2, 0, windowHeight);
+            GenerateContainerWithParticles(particles2, 300, 10, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
 
             merged = false; // костыль
         }
@@ -91,13 +55,21 @@ namespace ParticleInteractionModel.Views
 
         private void GameTimerEvent(object sender, EventArgs e)
         {   
+            
+            if(merged)RenderParticles(particles3, 0, windowWigth, windowHeight, 0);
+            else
+            {
+                RenderParticles(particles1, 0, windowWigth / 2, windowHeight, 0);
+                RenderParticles(particles2, windowWigth / 2, windowWigth, windowHeight, 0);
+            }
+
+        }        
+        
+        private void GraphTimerEvent(object sender, EventArgs e)
+        {   
             // RenderParticles(particles1, 0, 1600/2, 900, 0);
-            RenderParticles(particles1, 0, 1600 / 2, 900, 0);
-            RenderParticles(particles2, 1600 / 2, 1600, 900, 0);
-            RenderParticles(particles3, 0, 1600, 900, 0);
-
-
-
+            if(merged) BuildGraph(particles3);
+            else BuildGraph(particles2);
 
 
         }
@@ -116,7 +88,6 @@ namespace ParticleInteractionModel.Views
                     else Ball.BouncingOfBalls(item1.Key, item2.Key);
                     item1.Key.BouncingOfWalls(LeftBorder, RightBorder,
                                               DownBorder, UpBorder);
-                    item1.Key.Move();
                 }
             }
             foreach (var item in particles)
@@ -128,6 +99,38 @@ namespace ParticleInteractionModel.Views
 
         }
 
+        private void GenerateContainerWithParticles(Dictionary<Ball, Ellipse> particles,
+                                                    int Count,
+                                                    int diameter,
+                                                    int mass,
+                                                    int speedFrom,
+                                                    int speedTo,
+                                                    IBrush color,
+                                                    int xFrom,
+                                                    int xTo,
+                                                    int yFrom,
+                                                    int yTo)
+        {
+            Random random = new Random();
+            for (int i = 0; i < Count; i++)
+            {
+                int x = random.Next(2 * diameter + xFrom + 10, xTo - diameter);
+                int y = random.Next(2 * diameter + yFrom + 10, yTo - diameter);
+                Vector velocity = new Vector(random.Next(speedFrom, speedTo), random.Next(speedFrom, speedTo));
+                Ball ball = new Ball(new Vector(x, y),
+                                     velocity,
+                                     (0, 0, 0), diameter, mass);
+                Ellipse el = new Ellipse();
+                el.Width = ball.Diameter;
+                el.Height = ball.Diameter;
+                el.Fill = color;
+                Canvas.SetLeft(el, ball.Position.X);
+                Canvas.SetTop(el, ball.Position.Y);
+                MainField.Children.Add(el);
+                particles.Add(ball, el);
+            }
+        }
+
         private void MergeContainersClick(object sender, RoutedEventArgs e)
         {
             if (!merged)// костыль
@@ -137,6 +140,54 @@ namespace ParticleInteractionModel.Views
             }
             particles1 = new Dictionary<Ball, Ellipse>();
             particles2 = new Dictionary<Ball, Ellipse>();
+        }
+
+        private void ShowInfoGraphicsClick(object sender, RoutedEventArgs e)
+        {
+            InfoGraph = new InfoGraphicss();
+            InfoGraph.Show();
+        }
+
+        private void BuildGraph(Dictionary<Ball, Ellipse> particles)
+        {
+            AvaPlot avaPlot1 = InfoGraph.Find<AvaPlot>("AvaPlot1");
+            if (avaPlot1 == null) return;
+            avaPlot1.Plot.Clear();
+            avaPlot1.Refresh();
+            double[] dataX = new double[particles.Count];
+            double[] dataY = new double[particles.Count];
+            double e = 0;
+            for (int i = 0; i < particles.Count; i++)
+            {
+                dataX[i] = Math.Round(particles.ElementAt(i).Key.Velocity.Length(),1);
+                e += ( particles.ElementAt(i).Key.Mass * Math.Pow(particles.ElementAt(i).Key.Velocity.Length(), 2) ) /2;
+            }
+            double temp;
+            for (int i = 0; i < dataX.Length; i++)
+            {
+                for (int j = i + 1; j < dataX.Length; j++)
+                {
+                    if (dataX[i] > dataX[j])
+                    {
+                        temp = dataX[i];
+                        dataX[i] = dataX[j];
+                        dataX[j] = temp;
+                    }
+                }
+            }
+            for (int i = 0; i < dataX.Length; i++)
+            {
+                int count = 0;
+                for (int k = 0; k < dataX.Length; k++)
+                {
+                    if (dataX[i] == dataX[k]) count++;
+                }
+                dataY[i] = count;
+            }
+            
+            avaPlot1.Plot.AddScatter(dataX, dataY).OnNaN = ScottPlot.Plottable.ScatterPlot.NanBehavior.Gap;
+
+            avaPlot1.Refresh();
         }
 
     }
