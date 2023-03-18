@@ -106,6 +106,7 @@ namespace ParticleInteractionModel.Models
 
                 // Изменение позиции шара на его скорость
                 ball_2.Move(dt);
+                ball_1.Move(dt);
                 //
             }
         }

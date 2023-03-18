@@ -21,17 +21,17 @@ namespace ParticleInteractionModel.Views
         DispatcherTimer graphTimer = new DispatcherTimer();
         MainModel mainModel = new MainModel();
 
-        Dictionary<Ball, Ellipse> particles1 = new Dictionary<Ball, Ellipse>();
-        Dictionary<Ball, Ellipse> particles2 = new Dictionary<Ball, Ellipse>();
-        Dictionary<Ball, Ellipse> particles3 = new Dictionary<Ball, Ellipse>();
+        private Dictionary<Ball, Ellipse> particles1 = new Dictionary<Ball, Ellipse>(); // изменить
+        private Dictionary<Ball, Ellipse> particles2 = new Dictionary<Ball, Ellipse>(); // к примеру, сделать список словарей
+        private Dictionary<Ball, Ellipse> particles3 = new Dictionary<Ball, Ellipse>(); // потому что их количество может меняться
 
         Window InfoGraph;
 
         bool merged;// костыль
 
 
-        int windowHeight = 600;
-        int windowWigth = 1000;
+        int windowHeight = 900;
+        int windowWigth = 1400;
 
         public MainWindow()
         {
@@ -43,12 +43,12 @@ namespace ParticleInteractionModel.Views
             gameTimer.Interval = TimeSpan.FromMilliseconds(1);
             gameTimer.Start();
 
-            graphTimer.Tick += GraphTimerEvent;
+            /*graphTimer.Tick += GraphTimerEvent;
             graphTimer.Interval = TimeSpan.FromSeconds(5);
-            graphTimer.Start();
+            graphTimer.Start();*/
 
-            GenerateContainerWithParticles(particles1, 100, 5, 100, 1, 3, Brushes.Green, 0, windowWigth/2, 0, windowHeight);
-            GenerateContainerWithParticles(particles2, 300, 10, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
+            GenerateContainerWithParticles(particles1, 100, 10, 100, 1, 5, Brushes.Green, 0, windowWigth, 0, windowHeight);
+            GenerateContainerWithParticles(particles2, 300, 20, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
 
             merged = false; // костыль
         }
@@ -69,7 +69,7 @@ namespace ParticleInteractionModel.Views
         private void GraphTimerEvent(object sender, EventArgs e)
         {   
             if(merged) BuildGraph(particles3);
-            else BuildGraph(particles2);
+            else BuildGraph(particles1);
         }
 
         public void RenderParticles(Dictionary<Ball, Ellipse> particles,
@@ -78,6 +78,7 @@ namespace ParticleInteractionModel.Views
                                     int DownBorder,
                                     int UpBorder)
         {
+            //
             foreach (var item1 in particles)
             {
                 foreach (var item2 in particles)
@@ -87,7 +88,8 @@ namespace ParticleInteractionModel.Views
                     item1.Key.BouncingOfWalls(LeftBorder, RightBorder,
                                               DownBorder, UpBorder);
                 }
-            }
+            } // вынести в Model
+            
             foreach (var item in particles)
             {
                 item.Key.Position += item.Key.Velocity;
@@ -107,7 +109,7 @@ namespace ParticleInteractionModel.Views
                                                     int xFrom,
                                                     int xTo,
                                                     int yFrom,
-                                                    int yTo)
+                                                    int yTo) // Вынести в Model или хотя бы в VM
         {
             Random random = new Random();
             for (int i = 0; i < Count; i++)
@@ -159,8 +161,16 @@ namespace ParticleInteractionModel.Views
 
         private void BuildGraph(Dictionary<Ball, Ellipse> particles)
         {
-            AvaPlot avaPlot1 = InfoGraph.Find<AvaPlot>("AvaPlot1");
-            if (avaPlot1 == null) return;
+            AvaPlot avaPlot1;
+            try
+            {
+                avaPlot1 = InfoGraph.Find<AvaPlot>("AvaPlot1");
+            }
+            catch (Exception ArgumentNullException)
+            {
+                Console.WriteLine(ArgumentNullException);
+                 return;
+            }
             avaPlot1.Plot.Clear();
             avaPlot1.Refresh();
             double[] dataX = new double[particles.Count];
