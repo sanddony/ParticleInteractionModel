@@ -8,17 +8,15 @@ namespace ParticleInteractionModel.Models
 {
     public interface IPhisicObject
     {
-        public Vector Position { get; set; }
+        public Vector Position { get; }
 
-        public Vector Velocity { get; set; }
+        public Vector Velocity { get; }
 
-        public double Mass { get; set; }
+        public double Mass { get; }
 
-        public double Acceleration { get; set; }
+        public Vector Acceleration { get; }
 
         public void Move();
-
-        public void SlowlyDown(double k);
 
 
     }

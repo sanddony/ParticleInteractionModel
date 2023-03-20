@@ -10,16 +10,17 @@ namespace ParticleInteractionModel.Models
 
     public class Ball : IPhisicObject
     {
-        private Vector position, velocity;
-        private double diameter, mass, acceleration;
-        public (int r, int g, int b) color;
+        // private Vector Position, velocity;
+        // private double Diameter, mass, Acceleration;
 
-        public Vector Position { get => position; set => position = value; }
-        public Vector Velocity { get => velocity; set => velocity = value; }
-        public double Mass { get => mass; set => mass = value; }
-        public double Radius { get => (diameter / 2); set => diameter = value * 2; }
-        public double Diameter { get => diameter; set => diameter = value; }
-        public double Acceleration { get => acceleration; set => acceleration = value; }
+        public (int r, int g, int b) Color { get; private set; }
+        public Vector Position { get; private set; }
+        public Vector Velocity { get; private set; }
+        public double Mass { get; private set; }
+        public double Radius { get; private set; }
+        public double Diameter { get; private set; }
+        public Vector Acceleration { get; private set; } 
+        
 
 
 
@@ -29,21 +30,22 @@ namespace ParticleInteractionModel.Models
                     double diameter,
                     double mass)
         {
-            this.position = position;
-            this.velocity = velocity;
-            this.color = color;
-            this.diameter = diameter;
-            this.mass = mass;
+            Position = position;
+            Velocity = velocity;
+            Color = color;
+            Diameter = diameter;
+            Mass = mass;
+            Acceleration = new Vector(0,0);
         }
 
         public void Move()
         {
-            this.position += this.velocity * acceleration;
+            Position += Velocity + Vector.Pow(Acceleration,2)/2;
         }
 
         public void Move(double dt)
         {
-            this.position += this.velocity * dt;
+            Position += Velocity * dt;
         }
 
 
@@ -54,54 +56,54 @@ namespace ParticleInteractionModel.Models
             //
 
             // Если расстояние между центрами шаров меньше суммы их радиусов
-            if (d <= ball_1.diameter / 2 + ball_2.diameter / 2)
+            if (d <= ball_1.Diameter / 2 + ball_2.Diameter / 2)
             {
                 // Вычисление синуса и косинуса между отрезком расстояния двух центров шаров и проекциями их скоростей
-                Vector.FindSinCos(ball_1.position, ball_2.position, out double sin, out double cos);
+                Vector.FindSinCos(ball_1.Position, ball_2.Position, out double sin, out double cos);
                 //
 
                 // Вычисление проекций векторов скорости на ось, проходящей через центры шаров
-                double Vn1 = ball_2.velocity.X * sin + ball_2.velocity.Y * cos;
-                double Vn2 = ball_1.velocity.X * sin + ball_1.velocity.Y * cos;
+                double Vn1 = ball_2.Velocity.X * sin + ball_2.Velocity.Y * cos;
+                double Vn2 = ball_1.Velocity.X * sin + ball_1.Velocity.Y * cos;
                 //
 
                 // Смещение шаров, если их границы перекрывают друг друга
-                double dt = (ball_2.diameter / 2 + ball_1.diameter / 2 - d) / (Vn1 - Vn2);
+                double dt = (ball_2.Diameter / 2 + ball_1.Diameter / 2 - d) / (Vn1 - Vn2);
                 if (dt > 0.6) dt = 0.6;
                 if (dt < -0.6) dt = -0.6;
                 //
 
-                ball_1.position -= ball_1.velocity * dt;
-                ball_2.position -= ball_2.velocity * dt;
+                ball_1.Position -= ball_1.Velocity * dt;
+                ball_2.Position -= ball_2.Velocity * dt;
 
                 // Вычисление синуса и косинуса между отрезком расстояния двух центров шаров и проекциями их скоростей
-                Vector.FindSinCos(ball_1.position, ball_2.position, out sin, out cos);
+                Vector.FindSinCos(ball_1.Position, ball_2.Position, out sin, out cos);
                 //
 
                 // Вычисление проекций векторов скорости на координатную плоскость "соудорения" (после смещения)
-                Vn1 = ball_2.velocity.X * sin + ball_2.velocity.Y * cos;
-                Vn2 = ball_1.velocity.X * sin + ball_1.velocity.Y * cos;
+                Vn1 = ball_2.Velocity.X * sin + ball_2.Velocity.Y * cos;
+                Vn2 = ball_1.Velocity.X * sin + ball_1.Velocity.Y * cos;
 
-                double Vt1 = -ball_2.velocity.X * cos + ball_2.velocity.Y * sin;
-                double Vt2 = -ball_1.velocity.X * cos + ball_1.velocity.Y * sin;
+                double Vt1 = -ball_2.Velocity.X * cos + ball_2.Velocity.Y * sin;
+                double Vt2 = -ball_1.Velocity.X * cos + ball_1.Velocity.Y * sin;
                 //
 
                 double Vn2_i = Vn2;
                 double Vn1_i = Vn1;
 
                 // Вычилсение скорости шаров, в зависимости от их массы, согласно ЗСЭ и ЗСИ
-                Vn1 = ((ball_2.mass - ball_1.mass) * Vn1_i + 2 * ball_1.mass * Vn2_i) /
-                    (ball_1.mass + ball_2.mass);
-                Vn2 = ((ball_1.mass - ball_2.mass) * Vn2_i + 2 * ball_2.mass * Vn1_i) /
-                    (ball_1.mass + ball_2.mass);
+                Vn1 = ((ball_2.Mass - ball_1.Mass) * Vn1_i + 2 * ball_1.Mass * Vn2_i) /
+                    (ball_1.Mass + ball_2.Mass);
+                Vn2 = ((ball_1.Mass - ball_2.Mass) * Vn2_i + 2 * ball_2.Mass * Vn1_i) /
+                    (ball_1.Mass + ball_2.Mass);
                 //
 
                 // Изменение скоростей шаров
-                ball_1.velocity.X = Vn2 * sin - Vt2 * cos;
-                ball_1.velocity.Y = Vn2 * cos + Vt2 * sin;
+                ball_1.Velocity.X = Vn2 * sin - Vt2 * cos;
+                ball_1.Velocity.Y = Vn2 * cos + Vt2 * sin;
 
-                ball_2.velocity.X = Vn1 * sin - Vt1 * cos;
-                ball_2.velocity.Y = Vn1 * cos + Vt1 * sin;
+                ball_2.Velocity.X = Vn1 * sin - Vt1 * cos;
+                ball_2.Velocity.Y = Vn1 * cos + Vt1 * sin;
                 //
 
                 // Изменение позиции шара на его скорость
@@ -117,41 +119,41 @@ namespace ParticleInteractionModel.Models
                                     int DownBorder,
                                     int UpBorder)
         {
-            if (!((this.position.X + this.Radius >= RightBorder ||
-                this.position.X - this.Radius <= LeftBorder) || (this.position.Y + this.Radius >= DownBorder ||
-                this.position.Y - this.Radius <= UpBorder))) return;
+            if (!((Position.X + this.Radius >= RightBorder ||
+                Position.X - this.Radius <= LeftBorder) || (Position.Y + this.Radius >= DownBorder ||
+                Position.Y - this.Radius <= UpBorder))) return;
 
             //TO-DO: Сделать влидацию данных, кидать ошибку 
 
             // Вычисление на сколько край шара сместился за границы сосуда по оси X (delta_x)
-            double delta_x = this.position.X > (RightBorder - LeftBorder) / 2 + LeftBorder ?
-                                (this.position.X + this.Radius) - RightBorder :
-                                 LeftBorder - (this.position.X - this.Radius);
+            double delta_x = Position.X > (RightBorder - LeftBorder) / 2 + LeftBorder ?
+                                (Position.X + this.Radius) - RightBorder :
+                                 LeftBorder - (Position.X - this.Radius);
 
 
             // Вычисление на сколько край шара сместился за границы сосуда по оси Y (delta_y)
-            double delta_y = this.position.Y > (DownBorder - UpBorder) / 2 + UpBorder ?
-                            (this.position.Y + this.Radius) - DownBorder :
-                            UpBorder - (this.position.Y - this.Radius);
+            double delta_y = Position.Y > (DownBorder - UpBorder) / 2 + UpBorder ?
+                            (Position.Y + this.Radius) - DownBorder :
+                            UpBorder - (Position.Y - this.Radius);
 
             // Вычисление коэффицента смещения, который показывает за сколько итераций шар пройдёт delta с текущей скоростью
-            double k_y = Math.Abs(delta_y / this.velocity.Y);
-            double k_x = Math.Abs(delta_x / this.velocity.X);
+            double k_y = Math.Abs(delta_y / Velocity.Y);
+            double k_x = Math.Abs(delta_x / Velocity.X);
 
             // Вычисление скорости по оси X при соудорении с левой или правой стенкой и смещение шара назад на delta_x
-            if (this.position.X + this.Radius >= RightBorder ||
-                this.position.X - this.Radius <= LeftBorder)
+            if (Position.X + this.Radius >= RightBorder ||
+                Position.X - this.Radius <= LeftBorder)
             {
-                this.position.X -= (k_x+0.5f) * this.velocity.X;
-                this.velocity.X *= -1;
+                Position.X -= (k_x+0.5f) * Velocity.X;
+                Velocity.X *= -1;
             }
 
             // Вычисление скорости по оси Y при соудорении с нижней или верхнёй стенкой И смещение шара назад на delta_y
-            if (this.position.Y + this.Radius >= DownBorder ||
-                this.position.Y - this.Radius <= UpBorder)
+            if (Position.Y + this.Radius >= DownBorder ||
+                Position.Y - this.Radius <= UpBorder)
             {
-                this.position.Y -= (k_y+0.5f) * this.velocity.Y;
-                this.velocity.Y *= -1;
+                Position.Y -= (k_y+0.5f) * Velocity.Y;
+                Velocity.Y *= -1;
             }
 
             // Изменение позиции шара на его скорость
@@ -159,10 +161,5 @@ namespace ParticleInteractionModel.Models
 
         }
 
-        public void SlowlyDown(double k)
-        {
-            velocity *= k;
-            if (this.velocity.Length() < 0.1f) this.velocity = new Vector(0, 0);
-        }
     }
 }

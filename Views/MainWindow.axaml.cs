@@ -20,8 +20,9 @@ namespace ParticleInteractionModel.Views
         DispatcherTimer gameTimer = new DispatcherTimer();
         DispatcherTimer graphTimer = new DispatcherTimer();
         MainModel mainModel = new MainModel();
-
-        private Dictionary<Ball, Ellipse> particles1 = new Dictionary<Ball, Ellipse>(); // изменить
+        
+        // переделать на паттерн адаптер
+        private Dictionary<Ball, Ellipse> particles1 = new Dictionary<Ball, Ellipse>(); // изменить 
         private Dictionary<Ball, Ellipse> particles2 = new Dictionary<Ball, Ellipse>(); // к примеру, сделать список словарей
         private Dictionary<Ball, Ellipse> particles3 = new Dictionary<Ball, Ellipse>(); // потому что их количество может меняться
 
@@ -47,8 +48,8 @@ namespace ParticleInteractionModel.Views
             graphTimer.Interval = TimeSpan.FromSeconds(5);
             graphTimer.Start();*/
 
-            GenerateContainerWithParticles(particles1, 100, 10, 100, 1, 5, Brushes.Green, 0, windowWigth, 0, windowHeight);
-            GenerateContainerWithParticles(particles2, 300, 20, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
+            GenerateContainerWithParticles(particles1, 50, 10, 100, 1, 5, Brushes.Green, 0, windowWigth, 0, windowHeight);
+            GenerateContainerWithParticles(particles2, 80, 20, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
 
             merged = false; // костыль
         }
@@ -92,7 +93,7 @@ namespace ParticleInteractionModel.Views
             
             foreach (var item in particles)
             {
-                item.Key.Position += item.Key.Velocity;
+                item.Key.Move();
                 Canvas.SetLeft(item.Value, item.Key.Position.X);
                 Canvas.SetTop(item.Value, item.Key.Position.Y);
             }
@@ -109,7 +110,7 @@ namespace ParticleInteractionModel.Views
                                                     int xFrom,
                                                     int xTo,
                                                     int yFrom,
-                                                    int yTo) // Вынести в Model или хотя бы в VM
+                                                    int yTo) // Вынести в Model + сделать класс для контейнера
         {
             Random random = new Random();
             for (int i = 0; i < Count; i++)
@@ -139,7 +140,7 @@ namespace ParticleInteractionModel.Views
                 merged = true;
             }
             particles1 = new Dictionary<Ball, Ellipse>();
-            particles2 = new Dictionary<Ball, Ellipse>();
+            particles2 = new Dictionary<Ball, Ellipse>(); 
         }
 
         private void ShowInfoGraphicsClick(object sender, RoutedEventArgs e)
