@@ -10,8 +10,6 @@ namespace ParticleInteractionModel.Models
 
     public class Ball : IPhisicObject
     {
-        // private Vector Position, velocity;
-        // private double Diameter, mass, Acceleration;
 
         public (int r, int g, int b) Color { get; private set; }
         public Vector Position { get; private set; }
