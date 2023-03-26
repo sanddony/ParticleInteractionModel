@@ -32,7 +32,7 @@
 		</StackPanel>
 		
 		<Grid Grid.Column="1" Name="GridMaine">
-			<Canvas Name="MainField" Focusable="True" Background="White" ClipToBounds="True" PointerPressed="AddRemoveEllipses">
+			<Canvas Name="MainField" Focusable="True" Background="White" ClipToBounds="True">
 			</Canvas>
 		</Grid>
 		

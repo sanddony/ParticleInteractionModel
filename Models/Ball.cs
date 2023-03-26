@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +15,12 @@ namespace ParticleInteractionModel.Models
         public Vector Position { get; private set; }
         public Vector Velocity { get; private set; }
         public double Mass { get; private set; }
-        public double Radius { get; private set; }
+        public double Radius { get ; private set; }
         public double Diameter { get; private set; }
         public Vector Acceleration { get; private set; } 
+
+        public List<IPhisicObject> PhisicsObjects {get; private set;}
         
-
-
 
         public Ball(Vector position,
                     Vector velocity,
