@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ParticleInteractionModel.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : BaseViewModel
     {
         public MainWindowViewModel()
         {

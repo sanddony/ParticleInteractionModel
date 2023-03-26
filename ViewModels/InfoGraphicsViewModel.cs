@@ -15,7 +15,7 @@ using ReactiveUI;
 
 namespace ParticleInteractionModel.ViewModels
 {
-    internal class InfoGraphicsViewModel : Window
+    internal class InfoGraphicsViewModel : BaseViewModel
     {
         
         public InfoGraphicsViewModel(Dictionary<Ball, Ellipse> particles)

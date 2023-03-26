@@ -17,8 +17,6 @@ namespace ParticleInteractionModel.Models
         public double Mass { get; private set; }
         public double Radius { get ; private set; }
         public double Diameter { get; private set; }
-        public Vector Acceleration { get; private set; } 
-
         public List<IPhisicObject> PhisicsObjects {get; private set;}
         
 
@@ -33,12 +31,11 @@ namespace ParticleInteractionModel.Models
             Color = color;
             Diameter = diameter;
             Mass = mass;
-            Acceleration = new Vector(0,0);
         }
 
         public void Move()
         {
-            Position += Velocity + Vector.Pow(Acceleration,2)/2;
+            Position += Velocity;
         }
 
         public void Move(double dt)
@@ -158,6 +155,8 @@ namespace ParticleInteractionModel.Models
             this.Move();
 
         }
+
+        void IPhisicObject.CalculateCollision(IPhisicsRule rule, IPhisicObject collided_object) => rule.CollisionHandler(this, collided_object);
 
     }
 }

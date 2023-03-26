@@ -14,10 +14,8 @@ namespace ParticleInteractionModel.Models
 
         public double Mass { get; }
 
-        public Vector Acceleration { get; }
-
         public void Move();
 
-
+        public void CalculateCollision(IPhisicsRule rule, IPhisicObject collided_object);
     }
 }
