@@ -17,10 +17,7 @@ namespace ParticleInteractionModel.Views
 {
     public partial class MainWindow : Window
     {
-        DispatcherTimer gameTimer = new DispatcherTimer();
-        DispatcherTimer graphTimer = new DispatcherTimer();
-        MainModel mainModel = new MainModel();
-        
+        DispatcherTimer gameTimer = new DispatcherTimer();        
         // переделать на паттерн адаптер
         private Dictionary<Ball, Ellipse> particles1 = new Dictionary<Ball, Ellipse>(); // изменить 
         private Dictionary<Ball, Ellipse> particles2 = new Dictionary<Ball, Ellipse>(); // к примеру, сделать список словарей
@@ -41,17 +38,26 @@ namespace ParticleInteractionModel.Views
             MainField.Focus();
 
             gameTimer.Tick += GameTimerEvent;
-            gameTimer.Interval = TimeSpan.FromMilliseconds(1);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(10);
             gameTimer.Start();
-
-            /*graphTimer.Tick += GraphTimerEvent;
-            graphTimer.Interval = TimeSpan.FromSeconds(5);
-            graphTimer.Start();*/
 
             GenerateContainerWithParticles(particles1, 50, 10, 100, 1, 5, Brushes.Green, 0, windowWigth, 0, windowHeight);
             GenerateContainerWithParticles(particles2, 80, 20, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
+            foreach (var item1 in particles1)
+            {
+                item1.Value.PointerPressed += PointerEnterHandler;
+            }
+             foreach (var item1 in particles2)
+            {
+                item1.Value.PointerPressed += PointerEnterHandler;
+            }
 
             merged = false; // костыль
+        }
+
+        private void PointerEnterHandler(object? sender, PointerEventArgs e){
+            System.Console.WriteLine("тык");
+            System.Console.WriteLine(sender);
         }
 
 
@@ -115,12 +121,12 @@ namespace ParticleInteractionModel.Views
             Random random = new Random();
             for (int i = 0; i < Count; i++)
             {
-                int x = random.Next(2 * diameter + xFrom + 10, xTo - diameter);
-                int y = random.Next(2 * diameter + yFrom + 10, yTo - diameter);
                 Vector velocity = new Vector(random.Next(speedFrom, speedTo), random.Next(speedFrom, speedTo));
-                Ball ball = new Ball(new Vector(x, y),
+                Vector position = new Vector(random.Next(2 * diameter + xFrom + 10, xTo - diameter),  random.Next(2 * diameter + yFrom + 10, yTo - diameter));
+                (int r, int g, int b) color_rgb = (0, 0, 0);
+                Ball ball = new Ball(position,
                                      velocity,
-                                     (0, 0, 0), diameter, mass);
+                                     color_rgb, diameter, mass);
                 Ellipse el = new Ellipse();
                 el.Width = ball.Diameter;
                 el.Height = ball.Diameter;
@@ -149,14 +155,23 @@ namespace ParticleInteractionModel.Views
             InfoGraph.Show();
         }
 
-        private void AddRemoveEllipses(object sender, PointerPressedEventArgs e)
+        private void RemoveSelectedElipse(object sender, PointerReleasedEventArgs e)
         {
-            if(e.Pointer is Ellipse)
-            {
-                Ellipse rect = (Ellipse)e.Pointer;
-                MainField.Children.Add(rect);
-            }
-            this.Find<TextBlock>("Menu").Text= e.ToString(); // REMOVE
+            // foreach (var item1 in particles)
+            // {
+            //     foreach (var item2 in particles)
+            //     {
+            //         if (item1.Key == item2.Key) continue;
+            //         else Ball.BouncingOfBalls(item1.Key, item2.Key);
+            //         item1.Key.BouncingOfWalls(LeftBorder, RightBorder,
+            //                                   DownBorder, UpBorder);
+            //     }
+            // } // вынести в Model
+            // foreach (var item1 in particles1)
+            // {
+            //     if(item1.Value.PointerEnter += )
+            // }
+            //e.GetCurrentPoint(this).Position.X
         }
 
 
