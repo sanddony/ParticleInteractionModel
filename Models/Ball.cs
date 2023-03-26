@@ -156,7 +156,8 @@ namespace ParticleInteractionModel.Models
 
         }
 
-        void IPhisicObject.CalculateCollision(IPhisicsRule rule, IPhisicObject collided_object) => rule.CollisionHandler(this, collided_object);
+        public void CalculateCollision(IPhisicsRule rule) 
+            => rule.CollisionHandler(this);
 
     }
 }

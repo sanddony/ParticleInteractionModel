@@ -9,18 +9,18 @@ namespace ParticleInteractionModel.Models
 {
     public class Rect : IPhisicObject
     {
-        Vector Position => throw new NotImplementedException();
+        public Vector Position => throw new NotImplementedException();
 
-        Vector Velocity => throw new NotImplementedException();
+        public Vector Velocity => throw new NotImplementedException();
 
-        double Mass => throw new NotImplementedException();
+        public double Mass => throw new NotImplementedException();
 
-        void CalculateCollision(IPhisicsRule rule, IPhisicObject collided_object)
+        public void CalculateCollision(IPhisicsRule rule, IPhisicObject collided_object)
         {
             rule.CollisionHandler(this, collided_object);
         }
 
-        void Move()
+        public void Move()
         {
             throw new NotImplementedException();
         }
@@ -28,12 +28,16 @@ namespace ParticleInteractionModel.Models
 
     public interface IPhisicsRule
     {
-        void CollisionHandler(Ball obj1, Rect obj2);
-
-        void CollisionHandler(Rect obj1, Rect obj2);
-
-        void CollisionHandler(Ball obj1, Ball obj2);
+        public void CollisionHandler<T,V>(T obj_1, V obj_2);
     }
 
-    
+    public class IdealGassModel : IPhisicsRule
+    {
+        public void CollisionHandler<T, V>(T obj_1, V obj_2)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
 }
