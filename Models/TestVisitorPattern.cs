@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ParticleInteractionModel.Models
 {
+    public delegate void CollisionDelegate(IPhisicObject obj_1, IPhisicObject obj_2);
     public class Rect : IPhisicObject
     {
         public Vector Position => throw new NotImplementedException();
@@ -28,12 +29,58 @@ namespace ParticleInteractionModel.Models
 
     public interface IPhisicsRule
     {
-        public void CollisionHandler<T,V>(T obj_1, V obj_2);
+        public event CollisionDelegate CollisionHappened;
+        public void CollisionHandler(IPhisicObject obj_1, IPhisicObject obj_2)
+        {
+            if (obj_1 is Ball && obj_2 is Rect)
+            {
+                CollisionHandler(obj_1 as Ball, obj_2 as Rect);
+            } 
+            else if (obj_1 is Ball && obj_2 is Ball)
+            {
+                CollisionHandler(obj_1 as Ball, obj_2 as Ball);
+            } 
+            else if (obj_1 is Rect && obj_2 is Rect)
+            {
+                CollisionHandler(obj_1 as Rect, obj_2 as Rect);
+            } 
+            else if (obj_1 is Rect && obj_2 is Ball)
+            {
+                CollisionHandler(obj_1 as Rect, obj_2 as Ball);
+            } 
+        }
+        public void CollisionHandler(Ball obj_1, Rect obj_2);
+        public void CollisionHandler(Rect obj_1, Ball obj_2);
+        public void CollisionHandler(Ball obj_1, Ball obj_2);
+        public void CollisionHandler(Rect obj_1, Rect obj_2);
+        public void CheckCollision(List<IPhisicObject> objects);
     }
 
-    public class IdealGassModel : IPhisicsRule
+    public class IdealGasModel : IPhisicsRule
     {
-        public void CollisionHandler<T, V>(T obj_1, V obj_2)
+        public event CollisionDelegate? CollisionHappened;
+
+        public void CollisionHandler(Ball obj_1, Rect obj_2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CollisionHandler(Rect obj_1, Ball obj_2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CollisionHandler(Ball obj_1, Ball obj_2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CollisionHandler(Rect obj_1, Rect obj_2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CheckCollision(List<IPhisicObject> objects)
         {
             throw new NotImplementedException();
         }
