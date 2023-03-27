@@ -8,7 +8,7 @@ namespace ParticleInteractionModel.Models
 {
     public interface IPhisicObject
     {
-        public Vector Position { get; }
+        public Vector Position { get; set;}
 
         public Vector Velocity { get; }
 
@@ -16,6 +16,6 @@ namespace ParticleInteractionModel.Models
 
         public void Move();
 
-        public void CalculateCollision(IPhisicsRule rule, IPhisicObject collided_object);
+        public void CalculateCollision(PhysicalModel rule, IPhisicObject collided_object);
     }
 }

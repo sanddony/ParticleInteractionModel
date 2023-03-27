@@ -29,7 +29,6 @@ namespace ParticleInteractionModel.Models
             return new Vector(Math.Pow(v1.X,number), Math.Pow(v1.Y,number));
         }
 
-
         public static Vector operator *(Vector v1, double k)
         {
             return new Vector(v1.X * k, v1.Y * k);
@@ -95,6 +94,7 @@ namespace ParticleInteractionModel.Models
             sin = FindDx(v1, v2) / d;
             cos = FindDy(v1, v2) / d;
         }
+
 
     }
 }

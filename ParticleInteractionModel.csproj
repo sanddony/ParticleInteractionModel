@@ -24,7 +24,9 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
-    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <!-- <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" /> thow error 
+    Fody: Could not inject EventInvoker method on type 'ParticleInteractionModel.App'. 
+    It is possible you are inheriting from a base class and have not correctly set 'EventInvokerNames' or you are using a explicit -->
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
     <PackageReference Include="ScottPlot.Avalonia" Version="4.1.59" />
 

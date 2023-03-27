@@ -15,6 +15,7 @@ using ReactiveUI;
 
 namespace ParticleInteractionModel.ViewModels
 {
+    
     internal class InfoGraphicsViewModel : BaseViewModel
     {
         

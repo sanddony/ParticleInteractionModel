@@ -32,7 +32,8 @@ namespace ParticleInteractionModel.Views
         int windowWigth = 1400;
 
         public MainWindow()
-        {
+        {   
+            
             InitializeComponent();
 
             MainField.Focus();
@@ -43,6 +44,7 @@ namespace ParticleInteractionModel.Views
 
             GenerateContainerWithParticles(particles1, 50, 10, 100, 1, 5, Brushes.Green, 0, windowWigth, 0, windowHeight);
             GenerateContainerWithParticles(particles2, 80, 20, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
+            
             foreach (var item1 in particles1)
             {
                 item1.Value.PointerPressed += PointerEnterHandler;

@@ -12,8 +12,8 @@ namespace ParticleInteractionModel.Models
     {
 
         public (int r, int g, int b) Color { get; private set; }
-        public Vector Position { get; private set; }
-        public Vector Velocity { get; private set; }
+        public Vector Position { get; set; }
+        public Vector Velocity { get; set; }
         public double Mass { get; private set; }
         public double Radius { get ; private set; }
         public double Diameter { get; private set; }
@@ -156,7 +156,7 @@ namespace ParticleInteractionModel.Models
 
         }
 
-        public void CalculateCollision(IPhisicsRule rule, IPhisicObject collided_object)
+        public void CalculateCollision(PhysicalModel rule, IPhisicObject collided_object)
         {
             rule.CollisionHandler(this, collided_object);
         }
