@@ -1,4 +1,5 @@
 using System;
+using System.Timers;
 using System.Collections.Generic;
 using Avalonia.Controls;
 
@@ -9,6 +10,6 @@ namespace ParticleInteractionModel.Models
     {
         public Canvas MainField { get; }
 
-        public void Render();
+        public void Render(object? sender, ElapsedEventArgs e);
     }
 }

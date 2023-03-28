@@ -10,12 +10,14 @@ namespace ParticleInteractionModel.Models
     
     public class Rect : IPhisicObject
     {
-        public Vector Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Vector Position { get; set; }
 
-        public Vector Velocity => throw new NotImplementedException();
-
-        public double Mass => throw new NotImplementedException();
-
+        public Vector Velocity {get; set ;  }
+        
+        public double Mass {get ; set;  }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Area {get => Width * Height; }
         public void CalculateCollision(PhysicalModel rule, IPhisicObject collided_object)
         {
             rule.CollisionHandler(this, collided_object);

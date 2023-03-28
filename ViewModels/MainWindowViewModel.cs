@@ -10,8 +10,8 @@ namespace ParticleInteractionModel.ViewModels
         
         public MainWindowViewModel()
         {
-           
-
+        
+            
         }
 
     }

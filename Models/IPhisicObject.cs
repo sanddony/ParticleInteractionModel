@@ -10,9 +10,13 @@ namespace ParticleInteractionModel.Models
     {
         public Vector Position { get; set;}
 
-        public Vector Velocity { get; }
+        public Vector Velocity { get; set;}
 
-        public double Mass { get; }
+        public double Mass { get; set;}
+        public double Width { get; set;}
+        public double Height { get; set;}
+        public double Area { get; }
+
 
         public void Move();
 

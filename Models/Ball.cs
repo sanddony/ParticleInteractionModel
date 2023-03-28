@@ -11,25 +11,25 @@ namespace ParticleInteractionModel.Models
     public class Ball : IPhisicObject
     {
 
-        public (int r, int g, int b) Color { get; private set; }
         public Vector Position { get; set; }
         public Vector Velocity { get; set; }
-        public double Mass { get; private set; }
-        public double Radius { get ; private set; }
-        public double Diameter { get; private set; }
-        public List<IPhisicObject> PhisicsObjects {get; private set;}
-        
+        public double Mass { get; set; }
+        public double Radius {  get=>Radius; }
+        public double Diameter { get=>Width;}
+        public double Width { get; set;}
+        public double Height { get; set;}
+        public double Area { get => Math.PI * Math.Pow(Radius, 2);}
 
         public Ball(Vector position,
                     Vector velocity,
-                    (int r, int g, int b) color,
-                    double diameter,
+                    double width,
+                    double height,
                     double mass)
         {
             Position = position;
             Velocity = velocity;
-            Color = color;
-            Diameter = diameter;
+            Width = width;
+            Height = height;
             Mass = mass;
         }
 
@@ -51,7 +51,7 @@ namespace ParticleInteractionModel.Models
             //
 
             // Если расстояние между центрами шаров меньше суммы их радиусов
-            if (d <= ball_1.Diameter / 2 + ball_2.Diameter / 2)
+            if (d <= ball_1.Radius + ball_2.Radius)
             {
                 // Вычисление синуса и косинуса между отрезком расстояния двух центров шаров и проекциями их скоростей
                 Vector.FindSinCos(ball_1.Position, ball_2.Position, out double sin, out double cos);
@@ -63,13 +63,14 @@ namespace ParticleInteractionModel.Models
                 //
 
                 // Смещение шаров, если их границы перекрывают друг друга
-                double dt = (ball_2.Diameter / 2 + ball_1.Diameter / 2 - d) / (Vn1 - Vn2);
+                double dt = (ball_2.Radius + ball_1.Radius - d) / (Vn1 - Vn2);
                 if (dt > 0.6) dt = 0.6;
                 if (dt < -0.6) dt = -0.6;
-                //
-
                 ball_1.Position -= ball_1.Velocity * dt;
                 ball_2.Position -= ball_2.Velocity * dt;
+                //
+
+
 
                 // Вычисление синуса и косинуса между отрезком расстояния двух центров шаров и проекциями их скоростей
                 Vector.FindSinCos(ball_1.Position, ball_2.Position, out sin, out cos);
@@ -139,7 +140,7 @@ namespace ParticleInteractionModel.Models
             if (Position.X + this.Radius >= RightBorder ||
                 Position.X - this.Radius <= LeftBorder)
             {
-                Position.X -= (k_x+0.5f) * Velocity.X;
+                Position.X -= (k_x + 0.5f) * Velocity.X;
                 Velocity.X *= -1;
             }
 
@@ -147,7 +148,7 @@ namespace ParticleInteractionModel.Models
             if (Position.Y + this.Radius >= DownBorder ||
                 Position.Y - this.Radius <= UpBorder)
             {
-                Position.Y -= (k_y+0.5f) * Velocity.Y;
+                Position.Y -= (k_y + 0.5f) * Velocity.Y;
                 Velocity.Y *= -1;
             }
 

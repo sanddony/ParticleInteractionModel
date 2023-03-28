@@ -43,7 +43,7 @@ namespace ParticleInteractionModel.Views
             gameTimer.Start();
 
             GenerateContainerWithParticles(particles1, 50, 10, 100, 1, 5, Brushes.Green, 0, windowWigth, 0, windowHeight);
-            GenerateContainerWithParticles(particles2, 80, 20, 150, 3, 4, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
+            GenerateContainerWithParticles(particles2, 80, 20, 150, 3, 9, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
             
             foreach (var item1 in particles1)
             {
@@ -123,12 +123,15 @@ namespace ParticleInteractionModel.Views
             Random random = new Random();
             for (int i = 0; i < Count; i++)
             {
-                Vector velocity = new Vector(random.Next(speedFrom, speedTo), random.Next(speedFrom, speedTo));
-                Vector position = new Vector(random.Next(2 * diameter + xFrom + 10, xTo - diameter),  random.Next(2 * diameter + yFrom + 10, yTo - diameter));
-                (int r, int g, int b) color_rgb = (0, 0, 0);
+                Vector velocity = new Vector(random.Next(speedFrom, speedTo), 
+                                        random.Next(speedFrom, speedTo));
+                Vector position = new Vector(random.Next(2 * diameter + xFrom + 10, xTo - diameter), 
+                                             random.Next(2 * diameter + yFrom + 10, yTo - diameter));
                 Ball ball = new Ball(position,
                                      velocity,
-                                     color_rgb, diameter, mass);
+                                     diameter, 
+                                     diameter, 
+                                     mass);
                 Ellipse el = new Ellipse();
                 el.Width = ball.Diameter;
                 el.Height = ball.Diameter;

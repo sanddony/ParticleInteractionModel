@@ -1,9 +1,3 @@
-// abstrac
-//+ CollisionHandler(IPhisicObject obj_1, IPhisicObject obj_2) : void
-// + CollisionHandler(Ball obj_1, Rect obj_2): void
-// ...
-// + CollisionHandler(Rect obj_1, Rect obj_2): void
-// +  CheckCollision(List<IPhisicObject> objects);
 using System;
 using System.Collections.Generic;
 

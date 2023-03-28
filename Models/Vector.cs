@@ -74,6 +74,28 @@ namespace ParticleInteractionModel.Models
             return Math.Sqrt(Dx * Dx + Dy * Dy);
         }
 
+        // Finds the distance between two convex shapes
+        public static double FindDistances(Vector point, Vector[] vectors)
+        {
+            double Dx = FindDx(point, vectors);
+            double Dy = FindDy(point, vectors);
+            return Math.Sqrt(Dx * Dx + Dy * Dy);
+        }
+
+        public static double FindDx(Vector point, Vector[] vectors)
+        {
+            Vector max = MaxX(vectors);
+            Vector min = MinX(vectors);
+            return Math.Min(FindDx(point, max), FindDx(point, min));
+        }
+
+        public static double FindDy(Vector point, Vector[] vectors)
+        {
+            Vector max = MaxY(vectors);
+            Vector min = MinY(vectors);
+            return Math.Min(FindDy(point, max), FindDy(point, min));
+        }
+
         public static double FindDx(Vector point1, Vector point2)
         {
             return point1.X - point2.X;
@@ -93,6 +115,57 @@ namespace ParticleInteractionModel.Models
             if (d == 0) d = 0.01;
             sin = FindDx(v1, v2) / d;
             cos = FindDy(v1, v2) / d;
+        }
+
+        public static void FindSinCos(Vector v1,
+                                      Vector[] vectors,
+                                      out double sin,
+                                      out double cos)
+        {
+            double d = FindDistances(v1, vectors);
+            if (d == 0) d = 0.01;
+            sin = FindDx(v1, vectors) / d;
+            cos = FindDy(v1, vectors) / d;
+        }
+
+        public static Vector MaxX(Vector[] vectors){
+            Vector max = vectors[0];
+            foreach(Vector vector in vectors){
+                if(vector.X > max.X){
+                    max = vector;
+                }
+            }
+            return max;
+        }
+
+        public static Vector MaxY(Vector[] vectors){
+            Vector max = vectors[0];
+            foreach(Vector vector in vectors){
+                if(vector.Y > max.Y){
+                    max = vector;
+                }
+            }
+            return max;
+        }
+
+        public static Vector MinX(Vector[] vectors){
+            Vector min = vectors[0];
+            foreach(Vector vector in vectors){
+                if(vector.X < min.X){
+                    min = vector;
+                }
+            }
+            return min;
+        }
+
+        public static Vector MinY(Vector[] vectors){
+            Vector min = vectors[0];
+            foreach(Vector vector in vectors){
+                if(vector.Y < min.Y){
+                    min = vector;
+                }
+            }
+            return min;
         }
 
 

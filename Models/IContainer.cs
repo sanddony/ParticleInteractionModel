@@ -7,16 +7,14 @@ namespace ParticleInteractionModel.Models
 {
     public interface IContainer
     {
-        public PhysicalModel MyProperty { get; }
-        public double Size { get; }
-        public List<IPhisicObject> Walls { get; }
-        public List<IPhisicObject> Objects { get; }
-        public Timer Timer {get;}
-        public void Add(List<IPhisicObject> phisicObjects);
-        public void Add(IPhisicObject phisicObject);
-        public void Remove(List<IPhisicObject> phisicObjects);
-        public void Remove(IPhisicObject phisicObject);
-        public void ModelCalculations();
+        public PhysicalModel Engine { get; set;}
+        public double Size {get; set;}
+        public double Width {get; set;}
+        public double Height {get; set;}
+        public List<IPhisicObject> Walls {get; set;}
+        public List<IPhisicObject> Objects {get; set;}
+        public Timer Timer {get; set;}
+        public void ModelCalculations(object? sender, ElapsedEventArgs e);
         public void Pause();
         public void Start();
 

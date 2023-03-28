@@ -10,29 +10,52 @@ namespace ParticleInteractionModel.Models
 {
     public class Container : IContainer, IContainerUI
     {
-        public PhysicalModel MyProperty => throw new NotImplementedException();
+        public PhysicalModel Engine {get; set;}
 
-        public double Size => throw new NotImplementedException();
+        public double Size {get => Width * Height; set => Size = value;}
+        public double Width {get; set;}
+        public double Height {get; set;}
 
-        public List<IPhisicObject> Walls => throw new NotImplementedException();
+        public List<IPhisicObject> Walls {get; set;}
 
-        public List<IPhisicObject> Objects => throw new NotImplementedException();
+        public List<IPhisicObject> Objects {get; set;}
 
-        public Timer Timer => throw new NotImplementedException();
+        public Timer Timer {get; set;}
 
-        public Canvas MainField => throw new NotImplementedException();
+        public Canvas MainField {get; set;}
 
-        public void Add(List<IPhisicObject> phisicObjects)
+        public Container()
+        {
+
+        }
+        public Container(List<IPhisicObject> walls, 
+                         List<IPhisicObject> objects,
+                         PhysicalModel engine,
+                         int timerInterval,
+                         double width,
+                         double height)
+        {
+            Width = width;
+            Height = height;
+            Walls = walls;
+            Objects = objects;
+            
+            Timer = new Timer(timerInterval);
+            Timer.Elapsed += ModelCalculations;
+
+            MainField = new Canvas();
+            MainField.Focus();
+            MainField.Width = width; 
+            MainField.Height = height; 
+
+        }
+
+        public void ModelCalculations(object? sender, ElapsedEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(IPhisicObject phisicObject)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ModelCalculations()
+        public void Render(object? sender, ElapsedEventArgs e)
         {
             throw new NotImplementedException();
         }
@@ -42,20 +65,6 @@ namespace ParticleInteractionModel.Models
             throw new NotImplementedException();
         }
 
-        public void Remove(List<IPhisicObject> phisicObjects)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(IPhisicObject phisicObject)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Render()
-        {
-            throw new NotImplementedException();
-        }
 
         public void Start()
         {
