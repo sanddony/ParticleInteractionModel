@@ -9,7 +9,6 @@ namespace ParticleInteractionModel.ViewModels
 {
     public class IdealGasContainerFactory : ConainerFactory
     {
-        List<IPhisicObject> Walls { get; set; }
         List<IPhisicObject> Objects { get; set; }
         PhysicalModel Engine { get; set; }
         int TimerInterval { get; set; }
@@ -87,10 +86,10 @@ namespace ParticleInteractionModel.ViewModels
             up.Position = new Vector(0, 0);
             down.Position = new Vector(0, yLen - 1);
 
-            Walls.Add(left);
-            Walls.Add(up);
-            Walls.Add(right);
-            Walls.Add(down);
+            Container.Walls.Add(left);
+            Container.Walls.Add(up);
+            Container.Walls.Add(right);
+            Container.Walls.Add(down);
         }
 
         protected override IPhisicObject CreateIPhisicObject(Vector velocity,
