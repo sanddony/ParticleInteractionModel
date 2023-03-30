@@ -14,7 +14,7 @@ namespace ParticleInteractionModel.Models
         public Vector Position { get; set; }
         public Vector Velocity { get; set; }
         public double Mass { get; set; }
-        public double Radius {  get=>Radius; }
+        public double Radius {  get=>Diameter/2; }
         public double Diameter { get=>Width;}
         public double Width { get; set;}
         public double Height { get; set;}

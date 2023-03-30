@@ -28,8 +28,8 @@ namespace ParticleInteractionModel.Views
         bool merged;// костыль
 
 
-        int windowHeight = 900;
-        int windowWigth = 1400;
+        int windowHeight = 736;
+        int windowWigth = 1359;
 
         public MainWindow()
         {   
@@ -42,7 +42,7 @@ namespace ParticleInteractionModel.Views
             gameTimer.Interval = TimeSpan.FromMilliseconds(10);
             gameTimer.Start();
 
-            GenerateContainerWithParticles(particles1, 50, 10, 100, 1, 5, Brushes.Green, 0, windowWigth, 0, windowHeight);
+            GenerateContainerWithParticles(particles1, 80, 20, 150, 3, 9, Brushes.Black, 0, windowWigth, 0, windowHeight);
             GenerateContainerWithParticles(particles2, 80, 20, 150, 3, 9, Brushes.Black, windowWigth / 2, windowWigth, 0, windowHeight);
             
             foreach (var item1 in particles1)
